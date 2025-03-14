@@ -41,11 +41,11 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
     """Generates an HTML report with the results."""
     tor_count = len(tor_ips)
     tor_percentage = round((tor_count / total_ips) * 100, 2) if total_ips > 0 else 0
-    
+
     template = Template(""" 
     <html>
     <head>
-        <title>TOR Node Report</title>
+        <title>IPTor0x Report</title>
         <style>
             body { 
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -77,7 +77,7 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
             .info-section, .tor-section, .non-tor-section {
                 width: 90%;
                 margin: 30px auto;
-                padding: 20px;
+                padding: 15px;
                 border-radius: 8px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 background-color: white;
@@ -100,24 +100,29 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
             }
             th, td { 
                 border: 1px solid #ddd; 
-                padding: 12px; 
+                padding: 7px; 
                 text-align: center; 
             }
-            th { 
-                background-color: #d6d8db; 
-                color: #333;
-                font-size: 18px; 
+            .tor-table th { 
+                background-color: rgba(220, 53, 69, 0.2); 
+                color: #000;
+                font-size: 18px;
+            }
+            .non-tor-table th { 
+                background-color: rgba(40, 167, 69, 0.2); 
+                color: #000;
+                font-size: 18px;
             }
             td { 
                 font-size: 16px; 
-                color: #444; 
+                color: #000; 
             }
             .tor-node { 
                 background-color: transparent; 
                 font-weight: bold; 
             }
             .tor-node a {
-                background: linear-gradient(45deg, #007bff, #0056b3);
+                background: linear-gradient(45deg, #AEC6CF, #b0b0b0); /* Pastel gray gradient */
                 color: white;
                 padding: 5px 10px;
                 border-radius: 5px;
@@ -128,7 +133,7 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
             }
 
             .tor-node a:hover {
-                background: linear-gradient(45deg, #0056b3, #004085);
+                background: linear-gradient(45deg, #b0b0b0, #8c8c8c); /* Darker pastel gray on hover */
             }
 
             footer {
@@ -143,7 +148,7 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
         </style>
     </head>
     <body>
-        <h1>TOR Node Report</h1>
+        <h1>IPTor0x Report</h1>
 
         <div class="info-section">
             <h2>General Information</h2>
@@ -154,12 +159,12 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
 
         <div class="tor-section">
             <h2>IPs detected as TOR nodes</h2>
-            <table>
+            <table class="tor-table">
                 <tr><th>IP</th><th>AbuseIPDB</th></tr>
                 {% for ip in tor_ips %}
                     <tr class="tor-node">
                         <td>{{ ip }}</td>
-                        <td><a href="https://www.abuseipdb.com/check/{{ ip }}" target="_blank">View on AbuseIPDB</a></td>
+                        <td><a href="https://www.abuseipdb.com/check/{{ ip }}" target="_blank">View Info</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -167,7 +172,7 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
 
         <div class="non-tor-section">
             <h2>IPs that are not TOR nodes</h2>
-            <table>
+            <table class="non-tor-table">
                 <tr><th>IP</th></tr>
                 {% for ip in non_tor_ips %}
                     <tr>
@@ -181,9 +186,10 @@ def generate_html_report(tor_ips, non_tor_ips, total_ips):
     </html>
     """)
 
+
     # Generate the HTML and save it to a file
     html_content = template.render(tor_ips=tor_ips, non_tor_ips=non_tor_ips, tor_count=tor_count, tor_percentage=tor_percentage, total_ips=total_ips)
-    with open("tor_report.html", "w", encoding="utf-8") as f:
+    with open("report_IPTor0x.html", "w", encoding="utf-8") as f:
         f.write(html_content)
 
 def main():
@@ -205,12 +211,13 @@ def main():
     if tor_ips:
         print(Fore.YELLOW + Style.BRIGHT + "The following IPs are TOR exit nodes:")
         for ip in tor_ips:
-            print(Fore.RED + Style.BRIGHT + f" {ip}")
+            print(Fore.RED + Style.BRIGHT + f"{ip}")
+        print()
     else:
         print(Fore.GREEN + Style.BRIGHT + "No IPs found that are TOR exit nodes.")
     
     generate_html_report(tor_ips, non_tor_ips, len(ip_list))
-    print(Fore.CYAN + Style.BRIGHT + "Report generated: " + Fore.YELLOW + "tor_report.html")
+    print(Fore.CYAN + Style.BRIGHT + "[INFO] Report generated: " + Fore.LIGHTBLUE_EX + "report_IPTor0x.html")
 
 if __name__ == "__main__":
     main()

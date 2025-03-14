@@ -4,7 +4,7 @@
 IPTor0x is a Python script that analyzes a list of IP addresses and determines which ones are TOR exit nodes. The results are displayed in the terminal and saved in an HTML report with a professional design.
 
 <p align="center">
-<img src=https://imgur.com/oIPfL9f.png>
+<img src=https://imgur.com/a2rCQqR.png>
 </p>
 
 
@@ -39,8 +39,7 @@ The script generates a tor_report.html file containing the analysis results.
 
 
 <p align="center">
-<img src=https://imgur.com/3B1LnLS.png>
-<img src=https://imgur.com/VEpBbSg.png>
+<img src=https://imgur.com/uKNQOQw.png>
 </p>
 
 ## Contributions
