@@ -1,0 +1,8 @@
+# Generated reports
+report_IPTor0x.html
+report_IPTor0x.csv
+iptor0x.log
+
+# Python
+__pycache__/
+*.pyc
